@@ -18,7 +18,7 @@ extern "C" {
 
 #include <windows.h>
 #include <tchar.h>
-#include "sha3/KeccakHash.h"
+#include "openssl\evp.h"
 #include "BitwiseIntrinsics.h"
 
 #if _MSC_VER >= 1600 && !defined(NO_PPL)
@@ -174,48 +174,7 @@ extern LPCTSTR g_szHashExtsTab[NUM_HASHES + 1];
  * Structures used by the system libraries
  **/
 
-typedef struct {
-	UINT32 state[4];
-	UINT64 count;
-	BYTE buffer[MD5_BLOCK_LENGTH];
-	BYTE result[MD5_DIGEST_LENGTH];
-} MD5_CTX, *PMD5_CTX;
-
-typedef struct {
-	UINT32 state[5];
-	UINT64 count;
-	BYTE buffer[SHA1_BLOCK_LENGTH];
-	BYTE result[SHA1_DIGEST_LENGTH];
-} SHA1_CTX, *PSHA1_CTX;
-
-typedef struct _SHA2_CTX {
-	union {
-		UINT32	st32[8];
-		UINT64	st64[8];
-	} state;
-	UINT64 bitcount[2];
-	BYTE buffer[SHA512_BLOCK_LENGTH];
-	BYTE result[SHA512_DIGEST_LENGTH];
-} SHA2_CTX, *PSHA2_CTX;
-
-
 UINT32 crc32( UINT32 uInitial, PCBYTE pbIn, UINT cbIn );
-
-void MD5Init( PMD5_CTX pContext );
-void MD5Update( PMD5_CTX pContext, PCBYTE pbIn, UINT cbIn );
-void MD5Final( PMD5_CTX pContext );
-
-void SHA1Init( PSHA1_CTX pContext );
-void SHA1Update( PSHA1_CTX pContext, PCBYTE pbIn, UINT cbIn );
-void SHA1Final( PSHA1_CTX pContext );
-
-void SHA256Init( PSHA2_CTX pContext );
-void SHA256Update( PSHA2_CTX pContext, PCBYTE pbIn, UINT cbIn );
-void SHA256Final( PSHA2_CTX pContext );
-
-void SHA512Init( PSHA2_CTX pContext );
-void SHA512Update( PSHA2_CTX pContext, PCBYTE pbIn, UINT cbIn );
-void SHA512Final( PSHA2_CTX pContext );
 
 /**
  * Structures used by our consistency wrapper layer
@@ -226,27 +185,10 @@ typedef union {
 	BYTE result[CRC32_DIGEST_LENGTH];
 } WHCTXCRC32, *PWHCTXCRC32;
 
-#define  WHCTXMD5  MD5_CTX
-#define PWHCTXMD5 PMD5_CTX
-
-#define  WHCTXSHA1  SHA1_CTX
-#define PWHCTXSHA1 PSHA1_CTX
-
-#define  WHCTXSHA256  SHA2_CTX
-#define PWHCTXSHA256 PSHA2_CTX
-
-#define  WHCTXSHA512  SHA2_CTX
-#define PWHCTXSHA512 PSHA2_CTX
-
 typedef struct {
-    Keccak_HashInstance state;
-    BYTE result[SHA3_256_DIGEST_LENGTH];
-} WHCTXSHA3_256, *PWHCTXSHA3_256;
-
-typedef struct {
-    Keccak_HashInstance state;
-    BYTE result[SHA3_512_DIGEST_LENGTH];
-} WHCTXSHA3_512, *PWHCTXSHA3_512;
+    EVP_MD_CTX* ctx;
+    BYTE result[MAX_DIGEST_LENGTH];
+} OPENSSL_CTX, * POPENSSL_CTX;
 
 /**
  * Wrapper layer functions to ensure a more consistent interface
@@ -269,51 +211,49 @@ __inline void WHAPI WHFinishCRC32( PWHCTXCRC32 pContext )
 	pContext->state = SwapV32(pContext->state);
 }
 
-#define WHInitMD5 MD5Init
-#define WHUpdateMD5 MD5Update
-#define WHFinishMD5 MD5Final
-
-#define WHInitSHA1 SHA1Init
-#define WHUpdateSHA1 SHA1Update
-#define WHFinishSHA1 SHA1Final
-
-#define WHInitSHA256 SHA256Init
-#define WHUpdateSHA256 SHA256Update
-#define WHFinishSHA256 SHA256Final
-
-#define WHInitSHA512 SHA512Init
-#define WHUpdateSHA512 SHA512Update
-#define WHFinishSHA512 SHA512Final
-
-__inline void WHAPI WHInitSHA3_256( PWHCTXSHA3_256 pContext )
+__inline void WHAPI OPENSSL_HASH_INIT(POPENSSL_CTX pContext, const EVP_MD* md)
 {
-    Keccak_HashInitialize_SHA3_256(&pContext->state);
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    EVP_DigestInit(ctx, md);
+    pContext->ctx = ctx;
 }
 
-__inline void WHAPI WHUpdateSHA3_256( PWHCTXSHA3_256 pContext, PCBYTE pbIn, UINT cbIn)
+__inline void WHAPI OPENSSL_HASH_UPDATE(POPENSSL_CTX pContext, PCBYTE pbIn, UINT cbIn)
 {
-    Keccak_HashUpdate(&pContext->state, pbIn, cbIn * 8);
+    EVP_DigestUpdate(pContext->ctx, pbIn, cbIn);
 }
 
-__inline void WHAPI WHFinishSHA3_256( PWHCTXSHA3_256 pContext )
+__inline void WHAPI OPENSSL_HASH_FINISH(POPENSSL_CTX pContext)
 {
-    Keccak_HashFinal(&pContext->state, pContext->result);
+    unsigned int dummy;
+    EVP_DigestFinal(pContext->ctx, pContext->result, &dummy);
+    EVP_MD_CTX_free(pContext->ctx);
+    pContext->ctx = NULL;
 }
 
-__inline void WHAPI WHInitSHA3_512(PWHCTXSHA3_512 pContext)
-{
-    Keccak_HashInitialize_SHA3_512(&pContext->state);
-}
+#define WHInitMD5(a) OPENSSL_HASH_INIT(a,EVP_md5())
+#define WHUpdateMD5 OPENSSL_HASH_UPDATE
+#define WHFinishMD5 OPENSSL_HASH_FINISH
 
-__inline void WHAPI WHUpdateSHA3_512(PWHCTXSHA3_512 pContext, PCBYTE pbIn, UINT cbIn)
-{
-    Keccak_HashUpdate(&pContext->state, pbIn, cbIn * 8);
-}
+#define WHInitSHA1(a) OPENSSL_HASH_INIT(a,EVP_sha1())
+#define WHUpdateSHA1 OPENSSL_HASH_UPDATE
+#define WHFinishSHA1 OPENSSL_HASH_FINISH
 
-__inline void WHAPI WHFinishSHA3_512(PWHCTXSHA3_512 pContext)
-{
-    Keccak_HashFinal(&pContext->state, pContext->result);
-}
+#define WHInitSHA256(a) OPENSSL_HASH_INIT(a,EVP_sha256())
+#define WHUpdateSHA256 OPENSSL_HASH_UPDATE
+#define WHFinishSHA256 OPENSSL_HASH_FINISH
+
+#define WHInitSHA512(a) OPENSSL_HASH_INIT(a,EVP_sha512())
+#define WHUpdateSHA512 OPENSSL_HASH_UPDATE
+#define WHFinishSHA512 OPENSSL_HASH_FINISH
+
+#define WHInitSHA3_256(a) OPENSSL_HASH_INIT(a,EVP_sha3_256())
+#define WHUpdateSHA3_256 OPENSSL_HASH_UPDATE
+#define WHFinishSHA3_256 OPENSSL_HASH_FINISH
+
+#define WHInitSHA3_512(a) OPENSSL_HASH_INIT(a,EVP_sha3_512())
+#define WHUpdateSHA3_512 OPENSSL_HASH_UPDATE
+#define WHFinishSHA3_512 OPENSSL_HASH_FINISH
 
 /**
  * WH*To* hex string conversion functions: These require WinHash.cpp
@@ -345,12 +285,12 @@ typedef struct {
 // Align all the hash contexts to avoid false sharing (of L1/2 cache lines in multi-core systems)
 typedef struct {
 	__declspec(align(64)) WHCTXCRC32  ctxCRC32;
-	__declspec(align(64)) WHCTXMD5    ctxMD5;
-	__declspec(align(64)) WHCTXSHA1   ctxSHA1;
-	__declspec(align(64)) WHCTXSHA256 ctxSHA256;
-	__declspec(align(64)) WHCTXSHA512 ctxSHA512;
-	__declspec(align(64)) WHCTXSHA3_256 ctxSHA3_256;
-	__declspec(align(64)) WHCTXSHA3_512 ctxSHA3_512;
+	__declspec(align(64)) OPENSSL_CTX ctxMD5;
+	__declspec(align(64)) OPENSSL_CTX ctxSHA1;
+	__declspec(align(64)) OPENSSL_CTX ctxSHA256;
+	__declspec(align(64)) OPENSSL_CTX ctxSHA512;
+	__declspec(align(64)) OPENSSL_CTX ctxSHA3_256;
+	__declspec(align(64)) OPENSSL_CTX ctxSHA3_512;
 	DWORD dwFlags;
 	UINT8 uCaseMode;
 } WHCTXEX, *PWHCTXEX;

@@ -16,9 +16,6 @@
     <Filter Include="Libraries">
       <UniqueIdentifier>{3d06f958-2b36-4a2d-a5a9-c4e7445f5196}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Libraries\sha3">
-      <UniqueIdentifier>{10750838-6937-43da-bede-5de87aa2ff94}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HashCheck.cpp">
@@ -66,15 +63,6 @@
     <ClCompile Include="libs\crc32.c">
       <Filter>Libraries</Filter>
     </ClCompile>
-    <ClCompile Include="libs\md5.c">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\sha1.c">
-      <Filter>Libraries</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\sha2.c">
-      <Filter>Libraries</Filter>
-    </ClCompile>
     <ClCompile Include="libs\WinHash.cpp">
       <Filter>Libraries</Filter>
     </ClCompile>
@@ -86,15 +74,6 @@
     </ClCompile>
     <ClCompile Include="HashVerify.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\sha3\KeccakHash.c">
-      <Filter>Libraries\sha3</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\sha3\KeccakP-1600-opt64.c">
-      <Filter>Libraries\sha3</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\sha3\KeccakSponge.c">
-      <Filter>Libraries\sha3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,9 +147,6 @@
     </ClInclude>
     <ClInclude Include="IsSSD.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="libs\sha3\KeccakHash.h">
-      <Filter>Libraries\sha3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
