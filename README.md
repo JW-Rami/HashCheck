@@ -10,7 +10,7 @@ The latest installer for Windows (Vista and later) can be found here:
 Kai Liu  
 Christopher Gurnee  
 David B. Trout  
-Tim Schlueter
+Tim Schlueter  
 Mounir IDRASSI
 
 
