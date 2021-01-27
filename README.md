@@ -54,6 +54,6 @@ Standard 3-Clause BSD License.
 Please refer to [license.txt](license.txt) for details about distribution and modification.
 
 This software is based on software originally distributed at:  
-<http://code.kliu.org/hashcheck/>
+<http://code.kliu.org/hashcheck/>  
 <https://github.com/gurnec/HashCheck>
 
