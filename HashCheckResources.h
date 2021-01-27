@@ -65,3 +65,4 @@
 #define IDC_OPT_FONT_CHANGE             518
 #define IDC_OPT_FONT_PREVIEW            519
 #define IDC_OPT_LINK                    520
+#define IDC_OPT_CHK_BLAKE3              521

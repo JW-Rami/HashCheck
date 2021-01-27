@@ -16,6 +16,9 @@
     <Filter Include="Libraries">
       <UniqueIdentifier>{3d06f958-2b36-4a2d-a5a9-c4e7445f5196}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libraries\Blake3">
+      <UniqueIdentifier>{1a409514-7703-4479-84ea-3c7ec6f7df14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HashCheck.cpp">
@@ -75,10 +78,43 @@
     <ClCompile Include="HashVerify.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="libs\BLAKE3\blake3.c">
+      <Filter>Libraries\Blake3</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\BLAKE3\blake3_avx2.c">
+      <Filter>Libraries\Blake3</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\BLAKE3\blake3_avx512.c">
+      <Filter>Libraries\Blake3</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\BLAKE3\blake3_dispatch.c">
+      <Filter>Libraries\Blake3</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\BLAKE3\blake3_portable.c">
+      <Filter>Libraries\Blake3</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\BLAKE3\blake3_sse2.c">
+      <Filter>Libraries\Blake3</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\BLAKE3\blake3_sse41.c">
+      <Filter>Libraries\Blake3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="HashCheck.def">
       <Filter>Source Files</Filter>
+    </None>
+    <None Include="libs\BLAKE3\blake3_avx2_x86-64_windows_msvc.asm">
+      <Filter>Libraries\Blake3</Filter>
+    </None>
+    <None Include="libs\BLAKE3\blake3_avx512_x86-64_windows_msvc.asm">
+      <Filter>Libraries\Blake3</Filter>
+    </None>
+    <None Include="libs\BLAKE3\blake3_sse2_x86-64_windows_msvc.asm">
+      <Filter>Libraries\Blake3</Filter>
+    </None>
+    <None Include="libs\BLAKE3\blake3_sse41_x86-64_windows_msvc.asm">
+      <Filter>Libraries\Blake3</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +183,12 @@
     </ClInclude>
     <ClInclude Include="IsSSD.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\BLAKE3\blake3.h">
+      <Filter>Libraries\Blake3</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\BLAKE3\blake3_impl.h">
+      <Filter>Libraries\Blake3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
