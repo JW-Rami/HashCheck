@@ -1,11 +1,12 @@
 /**
  * Windows Hashing/Checksumming Library
- * Last modified: 2016/02/21
+ * Last modified: 2021/01/27
  * Original work copyright (C) Kai Liu.  All rights reserved.
  * Modified work copyright (C) 2014, 2016 Christopher Gurnee.  All rights reserved.
  * Modified work copyright (C) 2016 Tim Schlueter.  All rights reserved.
- *
- * This is a wrapper for the CRC32, MD5, SHA1, SHA2-256, and SHA2-512
+ * Modified work copyright (C) 2021 Mounir IDRASSI.  All rights reserved.
+ * 
+ * This is a wrapper for the CRC32, MD5, SHA1, SHA2-256, SHA2-512 and Blake3
  * algorithms.
  **/
 

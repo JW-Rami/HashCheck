@@ -3,6 +3,7 @@
  * Original work copyright (C) Kai Liu.  All rights reserved.
  * Modified work copyright (C) 2014, 2016 Christopher Gurnee.  All rights reserved.
  * Modified work copyright (C) 2016 Tim Schlueter.  All rights reserved.
+ * Modified work copyright (C) 2021 Mounir IDRASSI.  All rights reserved.
  *
  * Please refer to readme.txt for information about this source code.
  * Please refer to license.txt for details about distribution and modification.
@@ -346,10 +347,10 @@ HRESULT Install( BOOL bRegisterUninstaller, BOOL bCopyFile )
 				TCHAR szUninstall[MAX_PATH << 1];
 				StringCchPrintf(szUninstall, countof(szUninstall), TEXT("regsvr32.exe /u /i /n \"%s\""), lpszTargetPath);
 
-				static const TCHAR szURLFull[] = TEXT("https://github.com/gurnec/HashCheck/issues");
+				static const TCHAR szURLFull[] = TEXT("https://github.com/idrassi/HashCheck/issues");
 				TCHAR szURLBase[countof(szURLFull)];
 				SSStaticCpy(szURLBase, szURLFull);
-				szURLBase[35] = 0; // strlen("https://github.com/gurnec/HashCheck")
+				szURLBase[35] = 0; // strlen("https://github.com/idrassi/HashCheck")
 
 				RegSetSZ(hKey, TEXT("DisplayIcon"), lpszTargetPath);
 				RegSetSZ(hKey, TEXT("DisplayName"), TEXT(HASHCHECK_NAME_STR));
@@ -360,7 +361,7 @@ HRESULT Install( BOOL bRegisterUninstaller, BOOL bCopyFile )
 				RegSetDW(hKey, TEXT("NoRepair"), 1);
 				RegSetSZ(hKey, TEXT("UninstallString"), szUninstall);
 				RegSetSZ(hKey, TEXT("URLInfoAbout"), szURLBase);
-				RegSetSZ(hKey, TEXT("URLUpdateInfo"), TEXT("https://github.com/gurnec/HashCheck/releases/latest"));
+				RegSetSZ(hKey, TEXT("URLUpdateInfo"), TEXT("https://github.com/idrassi/HashCheck/releases/latest"));
 				RegCloseKey(hKey);
 			}
 

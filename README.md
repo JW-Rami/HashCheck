@@ -1,11 +1,9 @@
 # HashCheck Shell Extension #
 
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/gurnec/HashCheck?branch=master&svg=true)](https://ci.appveyor.com/project/gurnec/HashCheck)
-
 ### Installation ###
 
 The latest installer for Windows (Vista and later) can be found here:  
-<https://github.com/gurnec/HashCheck/releases/latest>
+<https://github.com/idrassi/HashCheck/releases/latest>
 
 #### Contributors ####
 
@@ -13,13 +11,14 @@ Kai Liu
 Christopher Gurnee  
 David B. Trout  
 Tim Schlueter
+Mounir IDRASSI
 
 
 ## Building from source ##
 
 #### Compiler ####
 
-Microsoft Visual Studio 2015 (the free Community edition works well).
+Microsoft Visual Studio 2019 (the free Community edition works well).
 
 #### Localizations ####
 
@@ -56,3 +55,5 @@ Please refer to [license.txt](license.txt) for details about distribution and mo
 
 This software is based on software originally distributed at:  
 <http://code.kliu.org/hashcheck/>
+<https://github.com/gurnec/HashCheck>
+

@@ -3,6 +3,7 @@
  * Original work copyright (C) Kai Liu.  All rights reserved.
  * Modified work copyright (C) 2014, 2016 Christopher Gurnee.  All rights reserved.
  * Modified work copyright (C) 2016 Tim Schlueter.  All rights reserved.
+ * Modified work copyright (C) 2021 Mounir IDRASSI.  All rights reserved.
  *
  * Please refer to readme.txt for information about this source code.
  * Please refer to license.txt for details about distribution and modification.
@@ -12,18 +13,18 @@
 #define HASHCHECK_NAME_STR "HashCheck Shell Extension"
 
 // Full version: MUST be in the form of major,minor,revision,build
-#define HASHCHECK_VERSION_FULL 2,4,0,55
+#define HASHCHECK_VERSION_FULL 2,5,0,1
 
 // String version: May be any suitable string
-#define HASHCHECK_VERSION_STR "2.4.0.55"
+#define HASHCHECK_VERSION_STR "2.5.0.1"
 
 #ifdef _USRDLL
 // PE version: MUST be in the form of major.minor
-#pragma comment(linker, "/version:2.4")
+#pragma comment(linker, "/version:2.5")
 #endif
 
 // Tail portion of the copyright string for the version resource
-#define HASHCHECK_COPYRIGHT_STR "2008-2016 Kai Liu, Christopher Gurnee, Tim Schlueter, et al. All rights reserved."
+#define HASHCHECK_COPYRIGHT_STR "2008-2021 Kai Liu, Christopher Gurnee, Tim Schlueter, Mounir Idrassi et al. All rights reserved."
 
 // Name of the DLL
 #define HASHCHECK_FILENAME_STR "HashCheck.dll"
